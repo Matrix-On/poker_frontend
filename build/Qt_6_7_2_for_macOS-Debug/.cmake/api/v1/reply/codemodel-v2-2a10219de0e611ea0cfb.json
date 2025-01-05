@@ -1,0 +1,169 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-38897def29261ed0d464.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "poker_tournament_view",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint-Debug-34d35f19102aa14bd4f6.json",
+					"name" : "all_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_json-Debug-39342b2807d6004a26a3.json",
+					"name" : "all_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmllint_module-Debug-ab767d294b541a561ad9.json",
+					"name" : "all_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "all_qmltyperegistrations::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-all_qmltyperegistrations-Debug-a6691dc4886daa7e2062.json",
+					"name" : "all_qmltyperegistrations",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view-Debug-8a0d0211e1dbcd23fb4f.json",
+					"name" : "apppoker_tournament_view",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_autogen-Debug-ea51bdeadda1118d3a08.json",
+					"name" : "apppoker_tournament_view_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_autogen_timestamp_deps-Debug-ac34ae9bbed4f5b5bd3e.json",
+					"name" : "apppoker_tournament_view_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_qmlimportscan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_qmlimportscan-Debug-0e8fead39c7dfec56d8f.json",
+					"name" : "apppoker_tournament_view_qmlimportscan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_qmllint::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_qmllint-Debug-e48d714855ce8f9dfd0c.json",
+					"name" : "apppoker_tournament_view_qmllint",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_qmllint_json::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_qmllint_json-Debug-cf82685ecc1127e76e0d.json",
+					"name" : "apppoker_tournament_view_qmllint_json",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_qmllint_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_qmllint_module-Debug-dfac3e8e38fdd67f56e0.json",
+					"name" : "apppoker_tournament_view_qmllint_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_qmltyperegistration::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_qmltyperegistration-Debug-8b410dc2bc97b0da191b.json",
+					"name" : "apppoker_tournament_view_qmltyperegistration",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "apppoker_tournament_view_tooling::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-apppoker_tournament_view_tooling-Debug-6f0ce700f9467f51db2d.json",
+					"name" : "apppoker_tournament_view_tooling",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug",
+		"source" : "/Users/artemsamujlik/Development/poker_tournament_view"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/qt/qml/poker_tournament_view/">
+    <file alias="Main.qml">/Users/artemsamujlik/Development/poker_tournament_view/Main.qml</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,14 @@
+-rootPath
+/Users/artemsamujlik/Development/poker_tournament_view
+-cmake-output
+-output-file
+/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug/.qt/qml_imports/apppoker_tournament_view_conf.cmake
+-importPath
+/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug/poker_tournament_view
+-importPath
+/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug
+-importPath
+/Users/artemsamujlik/Qt/6.7.2/macos/./qml
+-qrcFiles
+/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug/.qt/rcc/qmake_poker_tournament_view.qrc
+/Users/artemsamujlik/Development/poker_tournament_view/build/Qt_6_7_2_for_macOS-Debug/.qt/rcc/apppoker_tournament_view_raw_qml_0.qrc
