@@ -1,5 +1,0 @@
-module poker_tournament_view
-typeinfo apppoker_tournament_view.qmltypes
-prefer :/qt/qml/poker_tournament_view/
-Main 1.0 Main.qml
-
