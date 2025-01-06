@@ -7,7 +7,7 @@ ApplicationWindow {
     visible: true
     width: 1024
     height: 768
-    title: "Poker Timer"
+    title: "Poker tournament view"
 
     property double coeffHColumnSideRectangles: 0.193 // коэфф от которого зависит высота ячеек в гриде
     property double coeffWColumnSideRectangles: 0.0005 // коэфф от которого зависит ширина ячеек в гриде
