@@ -19,13 +19,14 @@ function updateData(repeaterLeftColumnData, repeaterRightColumnData, data) {
     current_level = data.game.level;
     break_minutes = data.game.break_minutes;
     level_minutes = data.game.level_minutes;
+    break_after_level = data.game.break_after_level;
     leftColumnData[0] = "Entries:\n" + formatNumber(data.game.entries);
     leftColumnData[1] = "Players In:\n" + formatNumber(data.game.players_in);
     leftColumnData[2] = "Chip Count:\n" + formatNumber(data.game.total_chips);
     leftColumnData[3] = "Avg. Stack:\n" + formatNumber(data.game.total_chips / data.game.players_in);
-    leftColumnData[4] = "Total Pot:\n" + formatNumber(data.game.total_pot) + " BYN";
+    leftColumnData[4] = "Total Pot:\n" + formatNumber(data.game.total_pot) + " " + data.game.currency;
     rightColumnData[0] = "Level:\n" + current_level;
-    rightColumnData[4] = "Rebuy price:\n" + data.game.price_rebuy + " BYN"
+    rightColumnData[4] = "Rebuy price:\n" + data.game.price_rebuy + " " + data.game.currency;
     repeaterLeftColumnData.model = leftColumnData;
     repeaterRightColumnData.model = rightColumnData;
 }

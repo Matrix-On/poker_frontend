@@ -24,8 +24,9 @@ ApplicationWindow {
     property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
 
     property int current_level: 0
-    property int break_minutes: 0
-    property int level_minutes: 0
+    property int break_after_level: 4
+    property int break_minutes: 15
+    property int level_minutes: 20
     property var leftColumnData: [
         "Entries:\n 0",
         "Players In:\n 0",
@@ -72,8 +73,8 @@ ApplicationWindow {
                 } else {
                     // Переход к следующему таймеру
                     currentTimerIndex++;
-                    if (currentTimerIndex < timerList.length) {
-                        countdownSeconds = timerList[currentTimerIndex] * 60; // Перевод минут в секунды
+                    if (currentTimerIndex < blindList.length) {
+                        countdownSeconds = level_minutes * 60; // Перевод минут в секунды
                         updateBlind();
                         updateDisplayTimer();
                     } else {
@@ -235,7 +236,7 @@ ApplicationWindow {
         var minutes = Math.floor(countdownSeconds / 60);
         var seconds = countdownSeconds % 60;
         displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
-        var break_seconds = (8 - current_level) * level_minutes * 60 - (level_minutes * 60 - countdownSeconds);
+        var break_seconds = (break_after_level - current_level) * level_minutes * 60 - (level_minutes * 60 - countdownSeconds);
         minutes = Math.floor(break_seconds / 60);
         seconds = break_seconds % 60;
         rightColumnData[3] = "Next Break:\n" +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;;
