@@ -21,6 +21,14 @@ ApplicationWindow {
     property double coeffHColumnTimerText: 0.72 // коэфф от которого зависит размер текста
     property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
 
+    property var leftColumnData: [
+            "Entries:\n 0",
+            "Players In:\n 0",
+            "Chip Count:\n 0",
+            "Avg. Stack:\n 0",
+            "Total Pot:\n 0"
+        ]
+
     property var timerList: [1, 60, 12]
     property var blindList: ["Blinds: 3,000 / 6,000 / 1,000\n----------------\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
     property int currentTimerIndex: -1
@@ -31,28 +39,37 @@ ApplicationWindow {
         color: "black"
 
         Timer {
-                id: timer
-                interval: 1000 // 1 секунда
-                running: true
-                repeat: true
+            id: dataFetchTimer
+            interval: 5000 // 5 секунд
+            repeat: true
+            running: true
+            triggeredOnStart: true
+            onTriggered: fetchDataFromServer()
+        }
 
-                onTriggered: {
-                    if (countdownSeconds > 0) {
-                        countdownSeconds--;
+        Timer {
+            id: timer
+            interval: 1000 // 1 секунда
+            running: true
+            repeat: true
+            triggeredOnStart: true
+            onTriggered: {
+                if (countdownSeconds > 0) {
+                    countdownSeconds--;
+                    updateDisplayTimer();
+                } else {
+                    // Переход к следующему таймеру
+                    currentTimerIndex++;
+                    if (currentTimerIndex < timerList.length) {
+                        countdownSeconds = timerList[currentTimerIndex] * 60; // Перевод минут в секунды
+                        updateBlind();
                         updateDisplayTimer();
                     } else {
-                        // Переход к следующему таймеру
-                        currentTimerIndex++;
-                        if (currentTimerIndex < timerList.length) {
-                            countdownSeconds = timerList[currentTimerIndex] * 60; // Перевод минут в секунды
-                            updateBlind();
-                            updateDisplayTimer();
-                        } else {
-                            timer.stop(); // Остановить таймер, если достигнут конец списка
-                        }
+                        timer.stop(); // Остановить таймер, если достигнут конец списка
                     }
                 }
             }
+        }
 
         RowLayout {
             id: topRow
@@ -98,13 +115,8 @@ ApplicationWindow {
                 spacing: 0//appStart.height * coeffHColumnSpacing
 
                 Repeater {
-                    model: [
-                        "Entries:\n 137",
-                        "Players In:\n 11",
-                        "Chip Count:\n 4,710,000",
-                        "Avg. Stack:\n 428,000",
-                        "Total Pot:\n 13,150,000"
-                    ]
+                    id: repeaterLeftColumnData
+                    model: leftColumnData
                     Rectangle {
                         color: "green"
                         Layout.fillWidth: true
@@ -220,5 +232,37 @@ ApplicationWindow {
 
     function updateBlind() {
         blindText.text = blindList[currentTimerIndex];
+    }
+
+    function fetchDataFromServer() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8000/game/game_info/1", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var responseData = JSON.parse(xhr.responseText);
+                    updateData(responseData.data);
+                } else {
+                    console.error("Ошибка: " + xhr.status);
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    function updateData(data) {
+        // Обновите серверные данные
+        leftColumnData[0] = "Entries:\n " + formatNumber(500000);//ormatNumber(data.game.entries);
+        leftColumnData[1] = "Players In:\n " + formatNumber(data.game.players_in);
+        leftColumnData[2] = "Chip Count:\n " + formatNumber(data.game.total_chips);
+        leftColumnData[3] = "Avg. Stack:\n " + formatNumber(data.game.total_chips / data.game.players_in);
+        leftColumnData[4] = "Total Pot:\n " + formatNumber(data.game.total_pot) + " BYN";
+        repeaterLeftColumnData.model = leftColumnData;
+        //repeaterLeftColumnData.update();
+    }
+
+    function formatNumber(number) {
+        //return number.toLocaleString('en-US');
+        return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     }
 }
