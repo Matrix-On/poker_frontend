@@ -21,15 +21,25 @@ ApplicationWindow {
     property double coeffHColumnTimerText: 0.72 // коэфф от которого зависит размер текста
     property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
 
+    property int current_level: 0
+    property int break_minutes: 0
+    property int level_minutes: 0
     property var leftColumnData: [
-            "Entries:\n 0",
-            "Players In:\n 0",
-            "Chip Count:\n 0",
-            "Avg. Stack:\n 0",
-            "Total Pot:\n 0"
-        ]
+        "Entries:\n 0",
+        "Players In:\n 0",
+        "Chip Count:\n 0",
+        "Avg. Stack:\n 0",
+        "Total Pot:\n 0"
+    ]
+    property var rightColumnData: [
+        "Level:\n 18",
+        "Current Time:\n 7:43:29",
+        "Elapsed Time:\n 6:45:00",
+        "Next Break:\n 28:13",
+        "Rebuy price:\n 50 BYN"
+    ]
 
-    property var timerList: [1, 60, 12]
+    property var timerList: [30, 60, 12]
     property var blindList: ["Blinds: 3,000 / 6,000 / 1,000\n----------------\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
     property int currentTimerIndex: -1
     property int countdownSeconds: 0
@@ -193,13 +203,8 @@ ApplicationWindow {
                 spacing: 0//parent.height * coeffHColumnSpacing
 
                 Repeater {
-                    model: [
-                        "Level:\n 18",
-                        "Current Time:\n 7:43:29",
-                        "Elapsed Time:\n 6:45:00",
-                        "Next Break:\n 28:13",
-                        "Rebuy price:\n 50 BYN"
-                    ]
+                    id: repeaterRightColumnData
+                    model: rightColumnData
                     Rectangle {
                         color: "green"
                         Layout.fillWidth: true
@@ -225,10 +230,15 @@ ApplicationWindow {
     }
 
     function updateDisplayTimer() {
-            var minutes = Math.floor(countdownSeconds / 60);
-            var seconds = countdownSeconds % 60;
-            displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
-        }
+        var minutes = Math.floor(countdownSeconds / 60);
+        var seconds = countdownSeconds % 60;
+        displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+        var break_seconds = (8 - current_level) * level_minutes * 60 - (level_minutes * 60 - countdownSeconds);
+        minutes = Math.floor(break_seconds / 60);
+        seconds = break_seconds % 60;
+        rightColumnData[3] = "Next Break:\n" +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;;
+        repeaterRightColumnData.model = rightColumnData;
+    }
 
     function updateBlind() {
         blindText.text = blindList[currentTimerIndex];
@@ -252,12 +262,18 @@ ApplicationWindow {
 
     function updateData(data) {
         // Обновите серверные данные
-        leftColumnData[0] = "Entries:\n " + formatNumber(500000);//ormatNumber(data.game.entries);
-        leftColumnData[1] = "Players In:\n " + formatNumber(data.game.players_in);
-        leftColumnData[2] = "Chip Count:\n " + formatNumber(data.game.total_chips);
-        leftColumnData[3] = "Avg. Stack:\n " + formatNumber(data.game.total_chips / data.game.players_in);
-        leftColumnData[4] = "Total Pot:\n " + formatNumber(data.game.total_pot) + " BYN";
+        current_level = data.game.level;
+        break_minutes = data.game.break_minutes;
+        level_minutes = data.game.level_minutes;
+        leftColumnData[0] = "Entries:\n" + formatNumber(data.game.entries);
+        leftColumnData[1] = "Players In:\n" + formatNumber(data.game.players_in);
+        leftColumnData[2] = "Chip Count:\n" + formatNumber(data.game.total_chips);
+        leftColumnData[3] = "Avg. Stack:\n" + formatNumber(data.game.total_chips / data.game.players_in);
+        leftColumnData[4] = "Total Pot:\n" + formatNumber(data.game.total_pot) + " BYN";
+        rightColumnData[0] = "Level:\n" + current_level;
+        rightColumnData[4] = "Rebuy price:\n" + data.game.price_rebuy + " BYN"
         repeaterLeftColumnData.model = leftColumnData;
+        repeaterRightColumnData.model = rightColumnData;
         //repeaterLeftColumnData.update();
     }
 
