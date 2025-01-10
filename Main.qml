@@ -9,20 +9,20 @@ ApplicationWindow {
     height: 768
     title: "Poker tournament view"
 
-    property double coeffHColumnSideRectangles: 0.193 // коэфф от которого зависит высота ячеек в гриде
+    property double coeffHColumnSideRectangles: 0.19 // коэфф от которого зависит высота ячеек в гриде 0.193
     property double coeffWColumnSideRectangles: 0.0005 // коэфф от которого зависит ширина ячеек в гриде
     property double coeffHColumnSideText: 0.25 // коэфф от которого зависит размер текста
     property double coeffGridMargins: 0.005 // расстояние между сеткой и стенками экрана
     property double coeffGridSpacing: 0.0005 // растояние между данными в колонках
     property double coeffHColumnSpacing: 0.005 // отступы между колонками
-    property double coeffHColumnTimerRectangles: 0.35 // отступы между колонками
-    property double coeffHColumnBlindRectangles: 0.635 // отступы между колонками
+    property double coeffHColumnTimerRectangles: 0.315 // отступы между колонками 0.35
+    property double coeffHColumnBlindRectangles: 0.635 // отступы между колонками 0.635
     property double coeffWColumnMidRectangles: 0.0015 // коэфф от которого зависит ширина ячеек в гриде
     property double coeffHColumnTimerText: 0.72 // коэфф от которого зависит размер текста
-    property double coeffHColumnBlindText: 0.2 // коэфф от которого зависит размер текста
+    property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
 
     property var timerList: [1, 60, 12]
-    property var blindList: ["Blinds:\n3,000 / 6,000\nAnte: 1,000\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
+    property var blindList: ["Blinds: 3,000 / 6,000 / 1,000\n----------------\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
     property int currentTimerIndex: -1
     property int countdownSeconds: 0
 
@@ -54,17 +54,48 @@ ApplicationWindow {
                 }
             }
 
-        GridLayout {
-            anchors.fill: parent
-            anchors.margins: appStart.width * coeffGridMargins
-            columns: 3
-            rowSpacing: appStart.height * coeffGridSpacing
-            columnSpacing: appStart.width * coeffGridSpacing
+        RowLayout {
+            id: topRow
+            //anchors.centerIn: parent.anchors.TopAnchorx
+            anchors.top: parent.top
+            Layout.fillWidth: true
+            spacing: 0//appStart.width * 0.01
 
+            Rectangle {
+                color: "green"
+                Layout.fillWidth: true
+                Layout.preferredHeight: appStart.height * 0.05  // Увеличенная высота для информации о призах
+                Layout.preferredWidth: appStart.width
+                radius: 5
+                border.color: "black"
+                border.width: 2
+
+                Text {
+                    anchors.fill: parent
+                    text: "#1 Scam-main 5000 re-entry 50"
+                    font.pixelSize: parent.height
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                }
+            }
+        }
+
+
+        GridLayout {
+            anchors.top: topRow.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 0//appStart.width * coeffGridMargins
+            columns: 3
+            rowSpacing: 0//appStart.height * coeffGridSpacing
+            columnSpacing: 0//appStart.width * coeffGridSpacing
             // Left Column (Information)
             ColumnLayout {
                 Layout.column: 0
-                spacing: appStart.height * coeffHColumnSpacing
+                spacing: 0//appStart.height * coeffHColumnSpacing
 
                 Repeater {
                     model: [
@@ -80,7 +111,7 @@ ApplicationWindow {
                         Layout.preferredHeight: appStart.height * coeffHColumnSideRectangles  // Увеличенная высота
                         Layout.preferredWidth: appStart.width * coeffWColumnSideRectangles
                         radius: 5
-                        border.color: "white"
+                        border.color: "black"
                         border.width: 2
 
                         Text {
@@ -99,7 +130,7 @@ ApplicationWindow {
             // Center Column (Timer and Blinds)
             ColumnLayout {
                 Layout.column: 1
-                spacing: parent.height * coeffHColumnSpacing
+                spacing: 0//parent.height * coeffHColumnSpacing
 
                 Rectangle {
                     color: "green"
@@ -107,7 +138,7 @@ ApplicationWindow {
                     Layout.preferredHeight: appStart.height * coeffHColumnTimerRectangles  // Увеличенная высота для таймера  0.435
                     Layout.preferredWidth: appStart.width * coeffWColumnMidRectangles  // Увеличенная высота для таймера 0.0015
                     radius: 5
-                    border.color: "white"
+                    border.color: "black"
                     border.width: 2
 
                     Text {
@@ -128,7 +159,7 @@ ApplicationWindow {
                     Layout.preferredHeight: appStart.height * coeffHColumnBlindRectangles  // Увеличенная высота для блайндов
                     Layout.preferredWidth: appStart.width * coeffWColumnMidRectangles  // Увеличенная высота для таймера
                     radius: 5
-                    border.color: "white"
+                    border.color: "black"
                     border.width: 2
 
                     Text {
@@ -147,7 +178,7 @@ ApplicationWindow {
             // Right Column (Additional Information)
             ColumnLayout {
                 Layout.column: 2
-                spacing: parent.height * coeffHColumnSpacing
+                spacing: 0//parent.height * coeffHColumnSpacing
 
                 Repeater {
                     model: [
@@ -163,7 +194,7 @@ ApplicationWindow {
                         Layout.preferredHeight: appStart.height * coeffHColumnSideRectangles
                         Layout.preferredWidth: appStart.width * coeffWColumnSideRectangles
                         radius: 5
-                        border.color: "white"
+                        border.color: "black"
                         border.width: 2
 
                         Text {
