@@ -17,6 +17,7 @@ qt_add_qml_module(apppoker_tournament_view
     VERSION 1.0
     QML_FILES
         Main.qml
+        QML_FILES functions.js
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
