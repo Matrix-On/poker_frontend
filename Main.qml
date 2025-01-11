@@ -13,15 +13,16 @@ ApplicationWindow {
 
     property double coeffHColumnSideRectangles: 0.19 // коэфф от которого зависит высота ячеек в гриде 0.193
     property double coeffWColumnSideRectangles: 0.0005 // коэфф от которого зависит ширина ячеек в гриде
-    property double coeffHColumnSideText: 0.25 // коэфф от которого зависит размер текста
+    property double coeffColumnSideText: 0.25 // коэфф от которого зависит размер текста
     property double coeffGridMargins: 0.005 // расстояние между сеткой и стенками экрана
     property double coeffGridSpacing: 0.0005 // растояние между данными в колонках
     property double coeffHColumnSpacing: 0.005 // отступы между колонками
     property double coeffHColumnTimerRectangles: 0.315 // отступы между колонками 0.35
     property double coeffHColumnBlindRectangles: 0.635 // отступы между колонками 0.635
     property double coeffWColumnMidRectangles: 0.0015 // коэфф от которого зависит ширина ячеек в гриде
-    property double coeffHColumnTimerText: 0.8 // коэфф от которого зависит размер текста
-    property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
+    property double coeffColumnTimerText: 0.8 // коэфф от которого зависит размер текста
+    property double coeffColumnBlindText: 0.175 // коэфф от которого зависит размер текста
+    property double coeffRowNameText: 0.05
 
     property int current_level: 0
     property int break_after_level: 4
@@ -96,7 +97,7 @@ ApplicationWindow {
             Rectangle {
                 color: "green"
                 Layout.fillWidth: true
-                Layout.preferredHeight: appStart.height * 0.05  // Увеличенная высота для информации о призах
+                Layout.preferredHeight: appStart.height * coeffRowNameText  // Увеличенная высота для информации о призах
                 Layout.preferredWidth: appStart.width
                 radius: 5
                 border.color: "black"
@@ -144,7 +145,7 @@ ApplicationWindow {
                         Text {
                             anchors.fill: parent
                             text: modelData
-                            font.pixelSize: parent.height * coeffHColumnSideText
+                            font.pixelSize: parent.height * coeffColumnSideText
                             color: "white"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -174,7 +175,7 @@ ApplicationWindow {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         text: timerList[0] + " : 00";
-                        font.pixelSize: parent.height * coeffHColumnTimerText  // Увеличим шрифт для таймера
+                        font.pixelSize: parent.height * coeffColumnTimerText  // Увеличим шрифт для таймера
                         color: "white"
                         font.bold: true
                     }
@@ -193,7 +194,7 @@ ApplicationWindow {
                         id: blindText
                         anchors.fill: parent
                         text: "Blinds:\n3,000 / 6,000\nAnte: 1,000\nNext: 6,000 / 12,000 / 2,000"
-                        font.pixelSize: parent.height * coeffHColumnBlindText
+                        font.pixelSize: parent.height * coeffColumnBlindText
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -222,7 +223,7 @@ ApplicationWindow {
                         Text {
                             anchors.fill: parent
                             text: modelData
-                            font.pixelSize: parent.height * coeffHColumnSideText
+                            font.pixelSize: parent.height * coeffColumnSideText
                             color: "white"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -238,21 +239,23 @@ ApplicationWindow {
         var minutes = Math.floor(countdownSeconds / 60);
         var seconds = countdownSeconds % 60;
         displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+
         var break_seconds = (break_after_level - current_level) * level_minutes * 60 - (level_minutes * 60 - countdownSeconds);
         minutes = Math.floor(break_seconds / 60);
         seconds = break_seconds % 60;
-        rightColumnData[3] = "Next Break:\n" +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+        rightColumnData[3] = "Next Break:\n" +  minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
         var hours = Math.floor(elapsedSeconds / 360);
         minutes = Math.floor(elapsedSeconds / 60);
         seconds = elapsedSeconds % 60;
-
-        rightColumnData[2] = "Elapsed Time:\n" + hours + " : " + (minutes < 10 ? "0" : "")
-                +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+        rightColumnData[2] = "Elapsed Time:\n" + hours + ":" + (minutes < 10 ? "0" : "")
+                +  minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 
         var now = new Date();
-        rightColumnData[1] = "Current Time:\n" + now.getHours().toString().padStart(2, '0') + ":" +
-                       now.getMinutes().toString().padStart(2, '0') + ":" +
-                       now.getSeconds().toString().padStart(2, '0');
+        rightColumnData[1] = "Current Time:\n" +
+                now.getHours().toString().padStart(2, '0') + ":" +
+                now.getMinutes().toString().padStart(2, '0') + ":" +
+                now.getSeconds().toString().padStart(2, '0');
 
         repeaterRightColumnData.model = rightColumnData;
     }
