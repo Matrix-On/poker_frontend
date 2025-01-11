@@ -20,7 +20,7 @@ ApplicationWindow {
     property double coeffHColumnTimerRectangles: 0.315 // отступы между колонками 0.35
     property double coeffHColumnBlindRectangles: 0.635 // отступы между колонками 0.635
     property double coeffWColumnMidRectangles: 0.0015 // коэфф от которого зависит ширина ячеек в гриде
-    property double coeffHColumnTimerText: 0.72 // коэфф от которого зависит размер текста
+    property double coeffHColumnTimerText: 0.8 // коэфф от которого зависит размер текста
     property double coeffHColumnBlindText: 0.175 // коэфф от которого зависит размер текста
 
     property int current_level: 0
@@ -43,9 +43,10 @@ ApplicationWindow {
     ]
 
     property var timerList: [30, 60, 12]
-    property var blindList: ["Blinds: 3,000 / 6,000 / 1,000\n----------------\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
+    property var blindList: ["Blinds: 3,000 / 6,000 / 1,000\n--------------------\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
     property int currentTimerIndex: -1
     property int countdownSeconds: 0
+    property int elapsedSeconds: 0
 
     Rectangle {
         anchors.fill: parent
@@ -61,13 +62,14 @@ ApplicationWindow {
         }
 
         Timer {
-            id: timer
+            id: mainTimer
             interval: 1000 // 1 секунда
             running: true
             repeat: true
             triggeredOnStart: true
             onTriggered: {
                 if (countdownSeconds > 0) {
+                    elapsedSeconds++;
                     countdownSeconds--;
                     updateDisplayTimer();
                 } else {
@@ -78,7 +80,7 @@ ApplicationWindow {
                         updateBlind();
                         updateDisplayTimer();
                     } else {
-                        timer.stop(); // Остановить таймер, если достигнут конец списка
+                        mainTimer.stop(); // Остановить таймер, если достигнут конец списка
                     }
                 }
             }
@@ -239,7 +241,19 @@ ApplicationWindow {
         var break_seconds = (break_after_level - current_level) * level_minutes * 60 - (level_minutes * 60 - countdownSeconds);
         minutes = Math.floor(break_seconds / 60);
         seconds = break_seconds % 60;
-        rightColumnData[3] = "Next Break:\n" +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;;
+        rightColumnData[3] = "Next Break:\n" +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+        var hours = Math.floor(elapsedSeconds / 360);
+        minutes = Math.floor(elapsedSeconds / 60);
+        seconds = elapsedSeconds % 60;
+
+        rightColumnData[2] = "Elapsed Time:\n" + hours + " : " + (minutes < 10 ? "0" : "")
+                +  minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+
+        var now = new Date();
+        rightColumnData[1] = "Current Time:\n" + now.getHours().toString().padStart(2, '0') + ":" +
+                       now.getMinutes().toString().padStart(2, '0') + ":" +
+                       now.getSeconds().toString().padStart(2, '0');
+
         repeaterRightColumnData.model = rightColumnData;
     }
 
