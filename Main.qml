@@ -2,6 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 
+import "js/main.js" as Functions
+
 ApplicationWindow {
     id: appStart
     visible: true
@@ -9,84 +11,140 @@ ApplicationWindow {
     height: 768
     title: "Poker tournament view"
 
-    property double coeffHColumnSideRectangles: 0.193 // коэфф от которого зависит высота ячеек в гриде
-    property double coeffWColumnSideRectangles: 0.0005 // коэфф от которого зависит ширина ячеек в гриде
-    property double coeffHColumnSideText: 0.25 // коэфф от которого зависит размер текста
-    property double coeffGridMargins: 0.005 // расстояние между сеткой и стенками экрана
-    property double coeffGridSpacing: 0.0005 // растояние между данными в колонках
-    property double coeffHColumnSpacing: 0.005 // отступы между колонками
-    property double coeffHColumnTimerRectangles: 0.35 // отступы между колонками
-    property double coeffHColumnBlindRectangles: 0.635 // отступы между колонками
-    property double coeffWColumnMidRectangles: 0.0015 // коэфф от которого зависит ширина ячеек в гриде
-    property double coeffHColumnTimerText: 0.72 // коэфф от которого зависит размер текста
-    property double coeffHColumnBlindText: 0.2 // коэфф от которого зависит размер текста
+    property var constanstCoeffs: {
+        "hColumnSideRectangles": 0.19, // коэфф от которого зависит высота ячеек в гриде
+        "wColumnSideRectangles": 0.0005, // коэфф от которого зависит ширина ячеек в гриде
+        "hColumnTimerRectangles": 0.315,  // отступы между колонками
+        "hColumnBlindRectangles": 0.635, // отступы между колонками
+        "wColumnMidRectangles": 0.0015, // коэфф от которого зависит ширина ячеек в гриде
+        "columnTimerText": 0.8, // коэфф от которого зависит размер текста таймера
+        "columnBlindText": 0.175, // коэфф от которого зависит размер текста блайндов
+        "columnSideText": 0.25, // коэфф от которого зависит размер текста боковых колонок
+        "rowNameText": 0.05,  // коэфф от которого зависит размер текста шапки
+        "gridMargins": 0.005,  // расстояние между сеткой и стенками экрана
+        "gridSpacing": 0.0005,  // растояние между данными в колонках
+        "hColumnSpacing": 0.005 // отступы между колонками
+    }
 
-    property var timerList: [1, 60, 12]
-    property var blindList: ["Blinds:\n3,000 / 6,000\nAnte: 1,000\nNext: 6,000 / 12,000 / 2,000", "Blinds\n6,000 / 12,000\nAnte: 2,000", ""]
-    property int currentTimerIndex: -1
-    property int countdownSeconds: 0
+    property  var dataValue: {
+        "leftColumn": [
+            "Entries:\n 0",
+            "Players In:\n 0",
+            "Chip Count:\n 0",
+            "Avg. Stack:\n 0",
+            "Total Pot:\n 0"
+        ],
+        "rightColumn": [
+                "Level:\n 18",
+                "Current Time:\n 7:43:29",
+                "Elapsed Time:\n 6:45:00",
+                "Next Break:\n 28:13",
+                "Rebuy price:\n 50 BYN"
+        ],
+        "current_level": 1,
+        "break_after_level": 4,
+        "next_break_after": 4,
+        "break_minutes": 15,
+        "level_minutes": 0.1,
+        "elapsed_seconds": 0,
+        "count_down_seconds": 0.1*60,
+        "current_timer_index": 0,
+        "blinds": [
+            {
+                "small_blind": 25,
+                "big_blind": 25,
+                "ante": 1
+            },
+            {
+                "small_blind": 25,
+                "big_blind": 25,
+                "ante": 1
+            },
+        ],
+        "started_at" : ""
+    }
 
     Rectangle {
         anchors.fill: parent
         color: "black"
 
         Timer {
-                id: timer
-                interval: 1000 // 1 секунда
-                running: true
-                repeat: true
+            id: dataFetchTimer
+            interval: 5000 // 5 секунд
+            repeat: true
+            running: true
+            triggeredOnStart: true
+            onTriggered: Functions.fetchDataFromServer(repeaterLeftColumnData, repeaterRightColumnData)
+        }
 
-                onTriggered: {
-                    if (countdownSeconds > 0) {
-                        countdownSeconds--;
-                        updateDisplayTimer();
-                    } else {
-                        // Переход к следующему таймеру
-                        currentTimerIndex++;
-                        if (currentTimerIndex < timerList.length) {
-                            countdownSeconds = timerList[currentTimerIndex] * 60; // Перевод минут в секунды
-                            updateBlind();
-                            updateDisplayTimer();
-                        } else {
-                            timer.stop(); // Остановить таймер, если достигнут конец списка
-                        }
-                    }
+        Timer {
+            id: mainTimer
+            interval: 1000 // 1 секунда
+            running: true
+            repeat: true
+            triggeredOnStart: true
+            onTriggered: Functions.triggeredBlindsTimer()
+        }
+
+        RowLayout {
+            id: topRow
+            //anchors.centerIn: parent.anchors.TopAnchorx
+            anchors.top: parent.top
+            Layout.fillWidth: true
+            spacing: 0 //appStart.width * 0.01
+
+            Rectangle {
+                color: "green"
+                Layout.fillWidth: true
+                Layout.preferredHeight: appStart.height * constanstCoeffs.rowNameText // Увеличенная высота для информации о призах
+                Layout.preferredWidth: appStart.width
+                radius: 5
+                border.color: "black"
+                border.width: 2
+
+                Text {
+                    anchors.fill: parent
+                    text: "#1 Scam-main 5000 re-entry 50"
+                    font.pixelSize: parent.height
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
                 }
             }
+        }
+
 
         GridLayout {
-            anchors.fill: parent
-            anchors.margins: appStart.width * coeffGridMargins
+            anchors.top: topRow.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.margins: 0//appStart.width * coeffGridMargins
             columns: 3
-            rowSpacing: appStart.height * coeffGridSpacing
-            columnSpacing: appStart.width * coeffGridSpacing
-
+            rowSpacing: 0//appStart.height * coeffGridSpacing
+            columnSpacing: 0//appStart.width * coeffGridSpacing
             // Left Column (Information)
             ColumnLayout {
                 Layout.column: 0
-                spacing: appStart.height * coeffHColumnSpacing
+                spacing: 0//appStart.height * coeffHColumnSpacing
 
                 Repeater {
-                    model: [
-                        "Entries:\n 137",
-                        "Players In:\n 11",
-                        "Chip Count:\n 4,710,000",
-                        "Avg. Stack:\n 428,000",
-                        "Total Pot:\n 13,150,000"
-                    ]
+                    id: repeaterLeftColumnData
+                    model: dataValue.leftColumn
                     Rectangle {
                         color: "green"
                         Layout.fillWidth: true
-                        Layout.preferredHeight: appStart.height * coeffHColumnSideRectangles  // Увеличенная высота
-                        Layout.preferredWidth: appStart.width * coeffWColumnSideRectangles
+                        Layout.preferredHeight: appStart.height * constanstCoeffs.hColumnSideRectangles  // Увеличенная высота
+                        Layout.preferredWidth: appStart.width * constanstCoeffs.wColumnSideRectangles
                         radius: 5
-                        border.color: "white"
+                        border.color: "black"
                         border.width: 2
 
                         Text {
                             anchors.fill: parent
                             text: modelData
-                            font.pixelSize: parent.height * coeffHColumnSideText
+                            font.pixelSize: parent.height * constanstCoeffs.columnSideText
                             color: "white"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -99,15 +157,15 @@ ApplicationWindow {
             // Center Column (Timer and Blinds)
             ColumnLayout {
                 Layout.column: 1
-                spacing: parent.height * coeffHColumnSpacing
+                spacing: 0//parent.height * coeffHColumnSpacing
 
                 Rectangle {
                     color: "green"
                     Layout.fillWidth: true
-                    Layout.preferredHeight: appStart.height * coeffHColumnTimerRectangles  // Увеличенная высота для таймера  0.435
-                    Layout.preferredWidth: appStart.width * coeffWColumnMidRectangles  // Увеличенная высота для таймера 0.0015
+                    Layout.preferredHeight: appStart.height * constanstCoeffs.hColumnTimerRectangles  // Увеличенная высота для таймера  0.435
+                    Layout.preferredWidth: appStart.width * constanstCoeffs.wColumnMidRectangles  // Увеличенная высота для таймера 0.0015
                     radius: 5
-                    border.color: "white"
+                    border.color: "black"
                     border.width: 2
 
                     Text {
@@ -115,8 +173,8 @@ ApplicationWindow {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        text: timerList[0] + " : 00";
-                        font.pixelSize: parent.height * coeffHColumnTimerText  // Увеличим шрифт для таймера
+                        text: ""
+                        font.pixelSize: parent.height * constanstCoeffs.columnTimerText  // Увеличим шрифт для таймера
                         color: "white"
                         font.bold: true
                     }
@@ -125,17 +183,17 @@ ApplicationWindow {
                 Rectangle {
                     color: "green"
                     Layout.fillWidth: true
-                    Layout.preferredHeight: appStart.height * coeffHColumnBlindRectangles  // Увеличенная высота для блайндов
-                    Layout.preferredWidth: appStart.width * coeffWColumnMidRectangles  // Увеличенная высота для таймера
+                    Layout.preferredHeight: appStart.height * constanstCoeffs.hColumnBlindRectangles  // Увеличенная высота для блайндов
+                    Layout.preferredWidth: appStart.width *constanstCoeffs.wColumnMidRectangles  // Увеличенная высота для таймера
                     radius: 5
-                    border.color: "white"
+                    border.color: "black"
                     border.width: 2
 
                     Text {
                         id: blindText
                         anchors.fill: parent
-                        text: "Blinds:\n3,000 / 6,000\nAnte: 1,000\nNext: 6,000 / 12,000 / 2,000"
-                        font.pixelSize: parent.height * coeffHColumnBlindText
+                        text: ""
+                        font.pixelSize: parent.height * constanstCoeffs.columnBlindText
                         color: "white"
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
@@ -147,29 +205,24 @@ ApplicationWindow {
             // Right Column (Additional Information)
             ColumnLayout {
                 Layout.column: 2
-                spacing: parent.height * coeffHColumnSpacing
+                spacing: 0//parent.height * coeffHColumnSpacing
 
                 Repeater {
-                    model: [
-                        "Level:\n 18",
-                        "Current Time:\n 7:43:29",
-                        "Elapsed Time:\n 6:45:00",
-                        "Next Break:\n 28:13",
-                        "Rebuy price:\n 50 BYN"
-                    ]
+                    id: repeaterRightColumnData
+                    model: dataValue.rightColumn
                     Rectangle {
                         color: "green"
                         Layout.fillWidth: true
-                        Layout.preferredHeight: appStart.height * coeffHColumnSideRectangles
-                        Layout.preferredWidth: appStart.width * coeffWColumnSideRectangles
+                        Layout.preferredHeight: appStart.height * constanstCoeffs.hColumnSideRectangles
+                        Layout.preferredWidth: appStart.width * constanstCoeffs.wColumnSideRectangles
                         radius: 5
-                        border.color: "white"
+                        border.color: "black"
                         border.width: 2
 
                         Text {
                             anchors.fill: parent
                             text: modelData
-                            font.pixelSize: parent.height * coeffHColumnSideText
+                            font.pixelSize: parent.height * constanstCoeffs.columnSideText
                             color: "white"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
@@ -181,13 +234,5 @@ ApplicationWindow {
         }
     }
 
-    function updateDisplayTimer() {
-            var minutes = Math.floor(countdownSeconds / 60);
-            var seconds = countdownSeconds % 60;
-            displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
-        }
 
-    function updateBlind() {
-        blindText.text = blindList[currentTimerIndex];
-    }
 }
