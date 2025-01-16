@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Main.qml</file>
+        <file>js/functions.js</file>
+        <file>js/updateTimers.js</file>
+        <file>js/main.js</file>
+        <file>js/getServerData.js</file>
+        <file>components/CentralColumn.qml</file>
+        <file>components/StandartRectangle.qml</file>
+        <file>components/InfoColumn.qml</file>
+        <file>views/GameView.qml</file>
+        <file>views/StartView.qml</file>
+        <file>additional/MainMenu.qml</file>
+    </qresource>
+</RCC>

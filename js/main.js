@@ -2,8 +2,8 @@ Qt.include("functions.js");
 Qt.include("updateTimers.js");
 Qt.include("getServerData.js")
 
-function fetchDataFromServer(repeaterLeftColumnData, repeaterRightColumnData) {
-    getGameInfo(repeaterLeftColumnData, repeaterRightColumnData)
+function fetchDataFromServer() {
+    getGameInfo()
 }
 
 function triggeredBlindsTimer() {
