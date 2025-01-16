@@ -1,13 +1,13 @@
 Qt.include("functions.js");
 
-function getGameInfo(repeaterLeftColumnData, repeaterRightColumnData) {
+function getGameInfo() {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "http://localhost:8000/game/game_info/1", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 var responseData = JSON.parse(xhr.responseText);
-                updateData(repeaterLeftColumnData, repeaterRightColumnData, responseData.data);
+                updateData(responseData.data);
             } else {
                 console.error("Ошибка: " + xhr.status);
             }
@@ -16,7 +16,7 @@ function getGameInfo(repeaterLeftColumnData, repeaterRightColumnData) {
     xhr.send();
 }
 
-function updateData(repeaterLeftColumnData, repeaterRightColumnData, data) {
+function updateData(data) {
     // Обновите серверные данные
     dataValue.current_level = data.game.level + 1;
     dataValue.break_minutes = data.game.break_minutes;
@@ -34,6 +34,6 @@ function updateData(repeaterLeftColumnData, repeaterRightColumnData, data) {
     dataValue.leftColumn[4] = "Total Pot:\n" + formatNumber(data.game.total_pot) + " " + data.game.currency.toUpperCase();
     dataValue.rightColumn[0] = "Level:\n" + dataValue.current_level;
     dataValue.rightColumn[4] = "Rebuy price:\n" + data.game.price_rebuy + " " + data.game.currency.toUpperCase();
-    repeaterLeftColumnData.model = dataValue.leftColumn;
-    repeaterRightColumnData.model = dataValue.rightColumn;
+    leftColumn.model = dataValue.leftColumn;
+    rightColumn.model = dataValue.rightColumn;
 }

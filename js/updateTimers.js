@@ -7,7 +7,7 @@ function updateTimer(is_last_level) {
     var break_seconds = updateBreakTimeData(is_last_level);
     updateDisplayTimer(is_last_level);
 
-    repeaterRightColumnData.model = dataValue.rightColumn;
+    rightColumn.model = dataValue.rightColumn;
 
     if (break_seconds === 0 && !is_last_level) {
         breakTimer()
@@ -21,7 +21,7 @@ function updateDisplayTimer(is_last_level) {
         minutes = Math.floor(dataValue.count_down_seconds / 60);
         seconds = dataValue.count_down_seconds % 60;
     }
-    displayTime.text = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
+    centralColumn.timerText = minutes + " : " + (seconds < 10 ? "0" : "") + seconds;
 }
 
 function updateCurrentTimeData() {
@@ -79,5 +79,5 @@ function updateBlind(is_last_level) {
     }
 
     var result_string = current_blinds + next_blinds;
-    blindText.text = result_string;
+    centralColumn.blindText = result_string;
 }
