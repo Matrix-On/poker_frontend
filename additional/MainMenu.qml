@@ -1,9 +1,11 @@
 import QtQuick 2.15
+//import QtQuick.Controls 2.15
+import Qt.labs.platform
 import QtQuick.Controls 2.15
 
-
+Item {
 MenuBar {
-    id: menuBar
+    id: mainMenu
     Menu {
         title: "Файл"
         MenuItem {
@@ -34,10 +36,23 @@ MenuBar {
     }
 
     Menu {
-        title: "Справка"
+        title: "&Справка"
         MenuItem {
             text: "О программе"
             onTriggered: console.log("Вы выбрали О программе")
         }
+        MenuItem {
+            text: "Опять 25..."
+            onTriggered: console.log("Вы выбрали О программе")
+        }
     }
+
+    Menu {
+        title: "&ЖОПА НАХУЙ"
+        MenuItem {
+            text: "тест"
+            onTriggered: console.log("Вы выбрали О программе")
+        }
+    }
+}
 }
