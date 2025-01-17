@@ -1,28 +1,39 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import QtMultimedia
 
 import "../js/main.js" as Functions
+import "../js/getServerData.js" as GetServerDataJS
 import "../components"
 
 Rectangle {
+    id: gameView
     anchors.fill: parent
     color: "black"
+
+    SoundEffect {
+            id: sound
+            source: "qrc:/sound/blind.mp3"
+        }
+
 
     Timer {
         id: dataFetchTimer
         interval: 5000 // 5 секунд
-        repeat: true
-        running: true
-        triggeredOnStart: true
-        onTriggered: Functions.fetchDataFromServer()
+        repeat: dataValue.game_is_start
+        running: dataValue.game_is_start
+        triggeredOnStart: dataValue.game_is_start
+        onTriggered: {Functions.fetchDataFromServer(false);
+            GetServerDataJS.proccessGameOperations();
+        }
     }
 
     Timer {
         id: mainTimer
         interval: 1000 // 1 секунда
-        running: true
-        repeat: true
-        triggeredOnStart: true
+        running: (dataValue.game_is_start && !dataValue.game_in_pause)
+        repeat: (dataValue.game_is_start && !dataValue.game_in_pause)
+        triggeredOnStart: (dataValue.game_is_start && !dataValue.game_in_pause)
         onTriggered: Functions.triggeredBlindsTimer()
     }
 
@@ -30,10 +41,10 @@ Rectangle {
         id: topRow
         anchors.top: parent.top
         Layout.fillWidth: true
-        spacing: 0 //appStart.width * 0.01
+        property string title: ""
 
         StandartRectangle {
-            text: "#1 Scam-main 5000 re-entry 50"
+            text: dataValue.headerText
             heightCoeff: constanstCoeffs.rowNameText
         }
     }
@@ -49,7 +60,7 @@ Rectangle {
 
         // Left Column (Information)
         InfoColumn {
-            id: leftColumn
+            id: leftInfoColumn
             Layout.column: 0
             model: dataValue.leftColumn
         }
@@ -58,15 +69,17 @@ Rectangle {
         CentralColumn {
             id: centralColumn
             Layout.column: 1
-            blindText: "blind"
-            timerText: "timer"
+            blindText: dataValue.blindText
+            timerText: dataValue.timerText
         }
 
         // Right Column (Additional Information)
         InfoColumn {
-            id: rightColumn
+            id: rightInfoColumn
             Layout.column: 2
-            model: dataValue.leftColumn
+            model: dataValue.rightColumn
         }
     }
+
+
 }

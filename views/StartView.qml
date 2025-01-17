@@ -1,6 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
+
 Rectangle {
     id: mainWindow
     anchors.fill: parent
@@ -21,7 +22,9 @@ Rectangle {
 
         Button {
             text: "Выбрать игру"
-            onClicked: stackView.push(componentGameView)
+            onClicked: {
+                stackView.push(componentGameView);
+            }
         }
 
         Button {
