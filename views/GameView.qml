@@ -11,10 +11,18 @@ Rectangle {
     anchors.fill: parent
     color: "black"
 
-    SoundEffect {
-            id: sound
-            source: "qrc:/sound/blind.mp3"
+
+    MediaPlayer {
+        id: sound
+        source: "file:/Users/artemsamujlik/Development/poker_tournament_view/sound/blind.mp3"//"qrc:/sound/blind.mp3"
+        audioOutput: AudioOutput {
+            volume: 1.0 // Убедитесь, что громкость не равна
+            onDeviceChanged: console.log("Audio device: " + device.name)
         }
+        onErrorChanged: console.log("Error: " + errorString)
+        //onStatusChanged: console.log("Status: " + status)
+    }
+
 
 
     Timer {
