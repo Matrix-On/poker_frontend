@@ -1,43 +1,50 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
+import Qt.labs.platform
 
+import "../js/main.js" as GameFunctions
+import "../js/updateTimers.js" as TimerFunctions
 
-MenuBar {
-    id: menuBar
-    Menu {
-        title: "Файл"
-        MenuItem {
-            text: "Открыть"
-            onTriggered: console.log("Вы выбрали Открыть")
-        }
-        MenuItem {
-            text: "Сохранить"
-            onTriggered: console.log("Вы выбрали Сохранить")
-        }
-        MenuSeparator {}
-        MenuItem {
-            text: "Выход"
-            onTriggered: Qt.quit()
-        }
-    }
+Item {
+    property bool in_game: false
+    property bool in_pause: false
+    property bool game_started: false
 
-    Menu {
-        title: "Правка"
-        MenuItem {
-            text: "Отменить"
-            onTriggered: console.log("Вы выбрали Отменить")
+    MenuBar {
+        id: mainMenu
+        Menu {
+            title: "&Основные"
+            MenuItem {
+                text: "Подключиться к игре"
+                enabled: !in_game
+                onTriggered: {
+                    GameFunctions.fetchActiveGamesFromServer(true);
+                    chooseGame.open();
+                }
+            }
+            MenuItem {
+                text: "Начать новую игру"
+                enabled: false
+                onTriggered: console.log("Вы выбрали Начать новую игру")
+            }
         }
-        MenuItem {
-            text: "Повторить"
-            onTriggered: console.log("Вы выбрали Повторить")
-        }
-    }
 
-    Menu {
-        title: "Справка"
-        MenuItem {
-            text: "О программе"
-            onTriggered: console.log("Вы выбрали О программе")
+        Menu {
+            title: "&Игра"
+            enabled: in_game
+            MenuItem {
+                text: !game_started ? "Начать игру" : "Закончить игру"
+                onTriggered: {
+                    if (game_started) GameFunctions.gameEnd()
+                    else GameFunctions.gameStart()
+                }
+            }
+            MenuItem {
+                text: !in_pause ? "Поставить паузу" : "Снять паузу"
+                onTriggered: {
+                    if (in_pause) GameFunctions.gameUnpause()
+                    else GameFunctions.gamePause()
+                }
+            }
         }
     }
 }

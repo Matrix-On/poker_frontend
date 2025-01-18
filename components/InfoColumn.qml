@@ -5,7 +5,7 @@ ColumnLayout {
     id: infoColumn
     spacing: 0
 
-    property var model: []
+    property ListModel model: ListModel {}
     property real heightCoeff: 0.19
 
     Repeater {

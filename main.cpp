@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("poker_tournament_view", "Main");
 
+    engine.loadFromModule("poker_tournament_view", "Main");
     return app.exec();
 }
