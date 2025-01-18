@@ -113,7 +113,7 @@ function proccessGameOperations() {
         }
     }
 
-    console.log(id_last_level);
+    //console.log(id_last_level);
     if (id_last_level > -1) {
         var now = new Date();
         var start_date = new Date(dataValue.operations[0].success_at);

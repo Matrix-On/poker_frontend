@@ -17,6 +17,10 @@ function triggeredBlindsTimer() {
     if (dataValue.count_down_seconds === 0
             && !is_last_level) {
         dataValue.current_timer_index++;
+        if (dataValue.game_is_start
+                && dataValue.current_timer_index + 1 != 1) {
+            sound.play()
+        }
         dataValue.count_down_seconds = dataValue.level_minutes * 60; // Перевод минут в секунды
 
     }

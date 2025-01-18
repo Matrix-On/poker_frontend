@@ -75,8 +75,11 @@ function updateBlind(is_last_level) {
 
     if (!is_last_level) {
         if (dataValue.game_is_start
-                && dataValue.current_level != 1
-                && dataValue.count_down_seconds === dataValue.level_minutes * 60 - 1) sound.play()
+                //&& dataValue.current_level != 1
+                && dataValue.current_timer_index + 1 != 1
+                && dataValue.count_down_seconds === dataValue.level_minutes * 60 - 1) {
+            //sound.play()
+        }
         blinds = dataValue.blinds[dataValue.current_timer_index + 1];
         next_blinds = "\n--------------------\nNext:\n"
                 + formatNumber(blinds.small_blind)

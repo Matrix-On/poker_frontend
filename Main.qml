@@ -47,7 +47,8 @@ ApplicationWindow {
         "unpause": 4,
         "next_level": 5,
         "time_break": 6,
-        "end_time_break": 7
+        "end_time_break": 7,
+        "expired": 8
     }
 
     Item {

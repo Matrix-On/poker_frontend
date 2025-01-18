@@ -11,19 +11,13 @@ Rectangle {
     anchors.fill: parent
     color: "black"
 
-
     MediaPlayer {
         id: sound
         source: "file:/Users/artemsamujlik/Development/poker_tournament_view/sound/blind.mp3"//"qrc:/sound/blind.mp3"
         audioOutput: AudioOutput {
-            volume: 1.0 // Убедитесь, что громкость не равна
-            onDeviceChanged: console.log("Audio device: " + device.name)
+            volume: 1.0
         }
-        onErrorChanged: console.log("Error: " + errorString)
-        //onStatusChanged: console.log("Status: " + status)
     }
-
-
 
     Timer {
         id: dataFetchTimer
@@ -31,7 +25,8 @@ Rectangle {
         repeat: dataValue.game_is_start
         running: dataValue.game_is_start
         triggeredOnStart: dataValue.game_is_start
-        onTriggered: {Functions.fetchDataFromServer(false);
+        onTriggered: {
+            Functions.fetchDataFromServer(false);
             GetServerDataJS.proccessGameOperations();
         }
     }
