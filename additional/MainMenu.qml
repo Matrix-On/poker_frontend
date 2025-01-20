@@ -17,7 +17,7 @@ Item {
                 text: "Подключиться к игре"
                 enabled: !in_game
                 onTriggered: {
-                    GameFunctions.fetchActiveGamesFromServer(true);
+                    GameFunctions.fetchActiveGamesFromServer();
                     chooseGame.open();
                 }
             }
