@@ -27,7 +27,7 @@ Rectangle {
         triggeredOnStart: dataValue.game_is_start
         onTriggered: {
             Functions.fetchDataFromServer(false);
-            GetServerDataJS.proccessGameOperations();
+            //GetServerDataJS.proccessGameOperations();
         }
     }
 

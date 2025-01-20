@@ -79,7 +79,7 @@ Dialog {
                         hoverEnabled: true
                         onClicked: {
                             dataValue.game_id = model.game_id // Присваиваем game_id
-                            GameFunctions.fetchDataFromServer();
+                            GameFunctions.fetchDataFromServer(true);
                             chooseGame.close() // Закрыть модальное окно
                         }
 

@@ -78,16 +78,18 @@ ApplicationWindow {
         property bool game_is_end: false
         property bool game_is_start: false
         property bool game_in_pause: false
+        property bool game_in_break: false
         property int game_id: 0
 
-        property int current_level: 1
-        property int break_after_level: 4
-        property int next_break_after: 4
-        property int break_minutes: 15
-        property real level_minutes: 0.1
+        property int players_in_game: 0
+        property int current_level: 0
+        property int break_after_level: 0
+        property int next_break_after: 0
+        property int break_minutes: 0
+        property real level_minutes: 0
         property int elapsed_seconds: 0
-        property real count_down_seconds: 0.1*60
-        property int current_timer_index: 0
+        property real count_down_seconds: 0
+        //property int current_timer_index: 0
         property var operations: [
             {
                 "id": 1,
