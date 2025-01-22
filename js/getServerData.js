@@ -21,7 +21,8 @@ function getActiveGames() {
 function updateActiveGames(data) {
     for (var i = 0; i < data.length; i++) {
         var title = "#" + data[i].id + " " + data[i].name + " " + data[i].chip_count
-                + " re-entry " + data[i].price_rebuy + " " + data[i].currency.toUpperCase();
+                + " re-entry " + data[i].price_rebuy + " " + data[i].currency.toUpperCase()
+                + " guaranteed " + data[i].guaranteed_amount + " " + data[i].currency.toUpperCase();
         dataValue.gamesModel.append({ name: title, game_id: data[i].id  })
     }
 }
@@ -109,7 +110,8 @@ function updateGameInfo(data, is_start) {
     dataValue.operations = data.operations;
 
     dataValue.headerText = "#" + data.game.id + " " + data.game.name + " " + data.game.chip_count
-            + " re-entry " + data.game.price_rebuy + " " + data.game.currency.toUpperCase();
+            + " re-entry " + data.game.price_rebuy + " " + data.game.currency.toUpperCase()
+            + " guaranteed " + data.game.guaranteed_amount + " " + data.game.currency.toUpperCase();
     if (is_start === true) proccessGameOperations();
     updateTimer(!(dataValue.current_level < dataValue.blinds.length));
 }
